@@ -1,0 +1,9 @@
+h1 {
+  white-space: nowrap;
+}
+
+.reveal section img.simple {
+  border: none;
+  background: none;
+  box-shadow: none;
+}

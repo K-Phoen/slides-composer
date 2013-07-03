@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Introduction à Composer</title>
+
+  <meta name="author" content="Kévin Gomez">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+  <link rel="stylesheet" href="reveal.js/css/theme/default.css" id="theme">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- For syntax highlighting -->
+  <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+  <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+  <script>
+    document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="reveal">
+
+  <!-- Any section element inside of this container is displayed as a slide -->
+  <div class="slides">
+    <section>
+      <h1>Introduction à Composer</h1>
+
+      <p>
+        <img src="images/logo-composer-transparent.png" class="simple" />
+      </p>
+    </section>
+
+    <section>
+      <h2>L'ordre du jour</h2>
+
+      <ul>
+        <li>Gestion de dépendances</li>
+        <li>Présentation de Composer</li>
+      </ul>
+    </section>
+
+    <!-- Projet -->
+    <section>
+      <section>
+        <h1>Le projet</h1>
+      </section>
+      <section>
+        <p>
+          <img src="images/project-dependencies.png" class="simple" />
+        </p>
+      </section>
+      <section>
+        <h1>Et maintenant ?</h1>
+      </section>
+      <section>
+        <h2>Dependency Hell</h2>
+
+        <p>
+          Répétez pour chacune des dépendances :
+        </p>
+
+        <ul>
+          <li>Où la trouver ?</li>
+          <li>Quelles sont ses dépendances ? Lesquelles sont nécessaires ?</li>
+          <li>Comment et où installer le tout ?</li>
+          <li>Gestion de l'autoloading</li>
+          <li>Version de la dépendance</li>
+        </ul>
+      </section>
+
+      <section>
+        <!--<h2>Au final</h2>-->
+
+        <p>
+          <img src="images/jackie_chan.jpg" class="simple" />
+        </p>
+      </section>
+    </section>
+
+    <section>
+      <section>
+        <h1>Solutions</h1>
+      </section>
+
+      <section>
+        <h2>Pear</h2>
+
+        <ul>
+          <li>installation globale</li>
+          <li>channels (channel1/package !== channel2/package)</li>
+          <li>impossible de figer des dépendances</li>
+          <li>gestion des dépendances assez douteuse</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Submodules</h2>
+
+        <ul>
+          <li>dépendances des dépendances ?</li>
+          <li>pas super pratique</li>
+        </ul>
+      </section>
+    </section>
+
+    <section>
+      <section>
+        <h1>Composer</h1>
+      </section>
+
+      <section>
+        <h2>En bref</h2>
+
+        <ul>
+          <li>installation simple</li>
+          <li>dépendances propres au projet</li>
+          <li>résolution efficace des versions des dépendances (solver SAT)</li>
+          <li>plus quelques bonus</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Installation</h2>
+
+        <pre><code data-trim>
+$ curl -sS https://getcomposer.org/installer | php
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>composer.json</h2>
+
+        <pre><code data-trim>
+{
+  "require": {
+    "pimple/pimple": "1.*",
+    "symfony/event-dispatcher": "2.1.*",
+    "kunststube/router": "dev-master",
+    "symfony/yaml": "2.1.*",
+    "twig/twig": "1.*",
+    "jms/serializer": "&gt;=0.8.0,&lt;=0.11.0"
+  },
+
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  }
+}
+        </code></pre>
+      </section>
+
+      <section>
+        <pre><code data-trim>
+% php composer.phar install
+Loading composer repositories with package information
+Installing dependencies (including require-dev) from lock file
+
+  - Installing pimple/pimple (v1.0.2)
+    Downloading: 100%
+
+  - Installing twig/twig (v1.12.2)
+    Downloading: 100%
+
+  - Installing symfony/yaml (v2.1.8)
+    Downloading: 100%
+
+  [...]
+
+Generating autoload files
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>Behind the scenes</h2>
+
+        <ul>
+          <li>composer.json : description des dépendances</li>
+          <li>composer.lock : image exacte d'une installation</li>
+          <li>Packagist, satis : sources de packages</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Commandes utiles</h2>
+
+        <ul>
+          <li>install : lit composer.lock et installe les dépendances</li>
+          <li>
+            update :
+            <ul>
+              <li>lit composer.json</li>
+              <li>vérifie les dépendances</li>
+              <li>installe/met à jour et maintient composer.lock</li>
+            </ul>
+          </li>
+          <li>
+            require
+            <ul>
+              <li>ajoute une entrée dans composer.json</li>
+              <li>vérifie les dépendances</li>
+              <li>installe et maintient composer.lock</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <pre><code data-trim>
+.
+├── [...]
+├── composer.json
+├── composer.lock
+└── vendor
+    ├── autoload.php
+    ├── [...]
+    ├── kunststube
+    │   └── router
+    ├── pimple
+    │   └── pimple
+    ├── symfony
+    │   ├── event-dispatcher
+    │   └── yaml
+    └── twig
+        └── twig
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>Autoloading</h2>
+
+        <pre><code data-trim>require 'vendor/autoload.php';</code></pre>
+
+        <p>
+          Dans un bootstrap de tests :
+        </p>
+        <pre><code data-trim>
+$loader = require 'vendor/autoload.php';
+$loader-&gt;add('Acme\\Test\\', __DIR__);
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>Quelques conseils</h2>
+
+        <ul>
+          <li>composer.phar à jour</li>
+          <li><code>php composer.phar --prefer-dist --optimize-autoloader</code> pour les déploiements</li>
+          <li>update &lt;package&gt;</li>
+          <li>.gitignore</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Pour aller plus loin</h2>
+
+        <ul>
+          <li>stability flags</li>
+          <li>dev requirements</li>
+          <li>scripts</li>
+          <li>Platform packages (version de PHP, extensions)</li>
+        </ul>
+      </section>
+    </section>
+
+    <section>
+      <h1>THE END</h1>
+    </section>
+  </div>
+</div>
+
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.min.js"></script>
+
+<script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+      { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      //{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+      // { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+      // { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+  });
+
+</script>
+</body>
+</html>
