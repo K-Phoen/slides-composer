@@ -131,6 +131,16 @@
       </section>
 
       <section>
+        <h2>Behind the scenes</h2>
+
+        <ul>
+          <li>composer.json : description des dépendances</li>
+          <li>composer.lock : image exacte d'une installation</li>
+          <li>Packagist, satis : sources de packages</li>
+        </ul>
+      </section>
+
+      <section>
         <h2>Installation</h2>
 
         <pre><code data-trim>
@@ -183,40 +193,6 @@ Generating autoload files
       </section>
 
       <section>
-        <h2>Behind the scenes</h2>
-
-        <ul>
-          <li>composer.json : description des dépendances</li>
-          <li>composer.lock : image exacte d'une installation</li>
-          <li>Packagist, satis : sources de packages</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Commandes utiles</h2>
-
-        <ul>
-          <li>install : lit composer.lock et installe les dépendances</li>
-          <li>
-            update :
-            <ul>
-              <li>lit composer.json</li>
-              <li>vérifie les dépendances</li>
-              <li>installe/met à jour et maintient composer.lock</li>
-            </ul>
-          </li>
-          <li>
-            require
-            <ul>
-              <li>ajoute une entrée dans composer.json</li>
-              <li>vérifie les dépendances</li>
-              <li>installe et maintient composer.lock</li>
-            </ul>
-          </li>
-        </ul>
-      </section>
-
-      <section>
         <pre><code data-trim>
 .
 ├── [...]
@@ -249,6 +225,30 @@ Generating autoload files
 $loader = require 'vendor/autoload.php';
 $loader-&gt;add('Acme\\Test\\', __DIR__);
         </code></pre>
+      </section>
+
+      <section>
+        <h2>Commandes utiles</h2>
+
+        <ul>
+          <li>install : lit composer.lock et installe les dépendances</li>
+          <li>
+            update :
+            <ul>
+              <li>lit composer.json</li>
+              <li>vérifie les dépendances</li>
+              <li>installe/met à jour et maintient composer.lock</li>
+            </ul>
+          </li>
+          <li>
+            require
+            <ul>
+              <li>ajoute une entrée dans composer.json</li>
+              <li>vérifie les dépendances</li>
+              <li>installe et maintient composer.lock</li>
+            </ul>
+          </li>
+        </ul>
       </section>
 
       <section>
